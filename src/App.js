@@ -1,25 +1,37 @@
-import logo from './logo.svg';
-import './App.css';
+import React from 'react';
+import SubmitForm from './Form';
+import TasksList from './TaskList'
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+class App extends React.Component{
+  constructor(props){
+    super(props);
+    this.state ={tasks: []}
+
+    this.addTask = this.addTask.bind(this);
+    this.removeTask = this.removeTask.bind(this);
+  }
+
+  addTask(task){
+    this.setState((previousState) => {
+      return { 
+        tasks: previousState.tasks.concat(task) 
+      };
+    });
+  }
+
+  removeTask(id){
+      const tasks = this.state.tasks.filter(element => (element.id !== id));
+      this.setState({ tasks: tasks });
+  }
+
+  render(){
+    return (
+      <div className="App">
+        <SubmitForm addTask={this.addTask}/>
+        <TasksList tasks={this.state.tasks} removeTask={this.removeTask}/>
+      </div>
+    );
+  }
 }
 
 export default App;
